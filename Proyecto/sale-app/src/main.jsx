@@ -6,6 +6,7 @@ import App from './App.jsx'
 import AboutUs from './routes/AboutUsPage.jsx'
 import Login from './routes/LoginPage.jsx'
 import ProductosPage from './routes/ProductosPage.jsx'
+import DashboardAPage from './routes/DashboardAdminPage.jsx'
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
   {
     path:"/mantenimiento/productos",
     element: <ProductosPage />
+  },
+  {
+    path:"/admin",
+    element: <DashboardAPage/>
   }
 ])
 
