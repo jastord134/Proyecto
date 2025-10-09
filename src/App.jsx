@@ -9,6 +9,7 @@ import CategoryDetail from './pages/admin/CategoryDetail'
 import OrderDetail from './pages/user/OrderDetail'
 import Profile from './pages/user/Profile'
 import ChangePassword from './pages/user/ChangePassword'
+import Login from "./pages/auth/Login.jsx";
 
 function Home() {
   return (
@@ -26,7 +27,8 @@ export default function App(){
     <BrowserRouter>
       <NavBar />
       <Routes>
-        <Route path='/' element={<Home/>} />
+        
+        <Route path='/' element={<Login />} />
         <Route path='/admin/categories' element={<RequireAdmin><CategoryList/></RequireAdmin>} />
         <Route path='/admin/categories/new' element={<RequireAdmin><CategoryForm/></RequireAdmin>} />
         <Route path='/admin/categories/:id' element={<RequireAdmin><CategoryDetail/></RequireAdmin>} />
