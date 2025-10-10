@@ -43,7 +43,7 @@ td {
 }
 
 .id-cell {
-    color: #2ecc40;
+    color: #2ea44f;
     font-weight: bold;
 }
 
@@ -53,7 +53,7 @@ td {
     cursor: pointer;
     margin: 0 4px;
     font-size: 1.2rem;
-    color: #27ae60;
+    color: #2ea44f;
     transition: color 0.2s;
 }
 
@@ -62,7 +62,7 @@ td {
 }
 
 .action-btn:hover {
-    color: #145a32;
+    color: #2ea44f;
 }
 
 img.product-img {
@@ -74,7 +74,7 @@ img.product-img {
 }
 
 .botones {
-    background-color: #3ca424;
+    background-color: #2ea44f;
     color: white;
     border: none;
     padding: 10px 20px;

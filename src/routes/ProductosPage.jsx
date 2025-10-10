@@ -1,4 +1,4 @@
-import Productos from "../../Proyecto/sale-app/src/components/Productos/Productos"
+import Productos from "../components/Productos/Productos"
 
 const ProductosPage = () => {
     return <Productos />
