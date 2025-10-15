@@ -1,11 +1,16 @@
-import { Link } from 'react-router-dom'
 import { useSession } from '../auth'
+import { Link , useNavigate } from 'react-router-dom'
 
 export default function NavBar(){
-  const { user, isAdmin } = useSession()
+  const { user, isAdmin, isLogged, logout } = useSession()
+  const navigate = useNavigate()
+   const handleCuentaClick = () => {
+    if (!isLogged) navigate('/login') 
+    else navigate('/user/profile') 
+  }
   return (
     <>
-      {/* Top bar */}
+       {/* Top bar */}
       <div className="topbar">
         <div className="brand">GamePlay <span className="dot"></span></div>
         <div className="search">
@@ -13,7 +18,15 @@ export default function NavBar(){
           <span>🔍</span>
         </div>
         <button className="pill">🛒 Carrito  S/ 100.00</button>
-        <button className="iconbtn">👤 Usuario <span className="muted">cuenta</span></button>
+        {isLogged ? (
+          <button className="iconbtn" onClick={logout}>
+            👤 {user.username} <span className="muted">(Cerrar sesión)</span>
+          </button>
+        ) : (
+          <button className="iconbtn" onClick={handleCuentaClick}>
+            👤 Usuario <span className="muted">cuenta</span>
+          </button>
+        )}
       </div>
 
       {/* Sub nav */}

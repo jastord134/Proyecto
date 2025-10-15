@@ -30,7 +30,7 @@ function Home() {
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Login />
+    element: <App><Home /></App>
   },
   {
     path: "inicio",
@@ -39,6 +39,10 @@ const router = createBrowserRouter([
   {
     path: "acerca",
     element: <App><AboutUs /></App>
+  },
+  {
+    path: "/login",
+    element: <Login />
   },
   {
     path: "/mantenimiento/productos",
