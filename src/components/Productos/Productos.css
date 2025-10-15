@@ -1,6 +1,4 @@
-body{
-    margin-left: 100px;
-}
+
 table {
     width: 95%;
     border-collapse: separate;
@@ -10,8 +8,23 @@ table {
     box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     overflow: hidden;
     margin-bottom: 2rem;
+    margin-left: 2.5%;
+    overflow-x: auto;
 }
-
+h1{
+    margin-left: 2%;
+}
+.search {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 999px;
+    padding: 10px 14px;
+    box-shadow: 0 10px 25px rgba(0,0,0,.06);
+    max-width: 400px;
+    flex: 1
+}
 thead {
     background: #f8f8f8;
 }
@@ -35,7 +48,7 @@ tr:last-child td {
 
 tr:hover {
     background: #f4f7fa;
-    transition: background 0.2s;
+    transition: 0.2s;
 }
 
 td {
@@ -65,6 +78,12 @@ td {
     color: #2ea44f;
 }
 
+.botones{
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-left: 2%; 
+}
 img.product-img {
     width: auto;
     height: 60px;
@@ -73,7 +92,7 @@ img.product-img {
     vertical-align: middle;
 }
 
-.botones {
+.boton {
     background-color: #2ea44f;
     color: white;
     border: none;

@@ -7,12 +7,39 @@ import './Productos.css'
 const Productos = () => {
 
     const [ showForm, setShowForm ] = useState(false)
-
+    const [ search, setSearch ] = useState("")
+    const productosFiltrados = productos.filter(p =>
+        p.titulo.toLowerCase().includes(search.toLowerCase())
+    )
     return (
         <>
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"></link>
                 <h1>Listado de productos</h1>
-                <button class="botones" onClick={() => setShowForm(!showForm)}>+ Agregar Producto</button>
+                <div class="botones">
+                    <div class="search" >
+                        <input
+                            type="text"
+                            placeholder="Buscar un producto..."
+                            value={search}
+                            onChange={e => setSearch(e.target.value)}
+                            style={{
+                                border: "none",
+                                outline: "none",
+                                width: "100%",
+                                fontSize: "14px",
+                                color: "#1f2937",
+                                background: "transparent"
+                            }}
+                        />
+                        <i className="fa fa-search"></i>
+                    </div>
+                    <button className="boton">
+                    <i className="fa fa-list"></i>
+                    Categorías
+                    </button>
+                    <button class="boton" onClick={() => setShowForm(!showForm)}>+ Agregar Producto</button>
+                </div>
+                
                 <br /><br />
                 <table>
                     <thead>
@@ -29,7 +56,7 @@ const Productos = () => {
                     </thead>
                     <tbody>
                         {
-                            productos.map((p) => (
+                            productosFiltrados.map((p) => (
                                 <tr key={p.id}>
                                     <td>
                                         <img src={p.img} alt={p.titulo} className="product-img" />
