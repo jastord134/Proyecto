@@ -3,13 +3,18 @@ import { useState } from 'react'
 import productos from "../../data/productosData"
 import FormularioProducto from "./FormularioProducto/FormularioProducto"
 import './Productos.css'
+import CategoriaProducto from './Categorias/Categorias'
 
 const Productos = () => {
 
     const [ showForm, setShowForm ] = useState(false)
     const [ search, setSearch ] = useState("")
+    const [showCategorias, setShowCategorias] = useState(false)
+    const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("")
+
     const productosFiltrados = productos.filter(p =>
-        p.titulo.toLowerCase().includes(search.toLowerCase())
+        p.titulo.toLowerCase().includes(search.toLowerCase()) &&
+        (categoriaSeleccionada === "" || p.categoria === categoriaSeleccionada)
     )
     return (
         <>
@@ -22,24 +27,20 @@ const Productos = () => {
                             placeholder="Buscar un producto..."
                             value={search}
                             onChange={e => setSearch(e.target.value)}
-                            style={{
-                                border: "none",
-                                outline: "none",
-                                width: "100%",
-                                fontSize: "14px",
-                                color: "#1f2937",
-                                background: "transparent"
-                            }}
                         />
                         <i className="fa fa-search"></i>
                     </div>
-                    <button className="boton">
+                    <button className="boton" onClick={() => setShowCategorias(!showCategorias)}>
                     <i className="fa fa-list"></i>
                     Categorías
                     </button>
                     <button class="boton" onClick={() => setShowForm(!showForm)}>+ Agregar Producto</button>
                 </div>
-                
+            {showCategorias && <CategoriaProducto
+                    categoriaSeleccionada={categoriaSeleccionada}
+                    setCategoriaSeleccionada={setCategoriaSeleccionada}
+                    setShowCategorias={setShowCategorias}
+                />}  
                 <br /><br />
                 <table>
                     <thead>
