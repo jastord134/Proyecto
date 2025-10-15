@@ -1,21 +1,50 @@
 import { useState } from 'react'
 
-import productos from "../../data/productosData"
+import productosData from "../../data/productosData"
 import FormularioProducto from "./FormularioProducto/FormularioProducto"
 import './Productos.css'
 import CategoriaProducto from './Categorias/Categorias'
 
-const Productos = () => {
+const getCategorias = (productos) => Array.from(new Set(productos.map(p => p.categoria)))
+const getPresentaciones =  (productos) => Array.from(new Set(productos.map(p => p.presentacion)))
 
-    const [ showForm, setShowForm ] = useState(false)
-    const [ search, setSearch ] = useState("")
+
+const Productos = () => {
+    const [productos, setProductos] = useState(productosData)
+    const [showForm, setShowForm ] = useState(false)
+    const [search, setSearch ] = useState("")
     const [showCategorias, setShowCategorias] = useState(false)
     const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("")
+    const [productoEditar, setProductoEditar] = useState(null)
 
+    const presentaciones=getPresentaciones(productos)
+    const categorias = getCategorias(productos)
+    
     const productosFiltrados = productos.filter(p =>
         p.titulo.toLowerCase().includes(search.toLowerCase()) &&
         (categoriaSeleccionada === "" || p.categoria === categoriaSeleccionada)
     )
+
+    const handleGuardarProducto = (nuevoProducto) => {
+        if (productoEditar) {
+        setProductos(productos.map(p => p.id === nuevoProducto.id ? nuevoProducto : p))
+        setProductoEditar(null)
+    } else {
+        const maxId = productos.length > 0 ? Math.max(...productos.map(p => p.id)) : 0
+        const productoConId = { ...nuevoProducto, id: maxId + 1 }
+        setProductos([...productos, productoConId])
+    }
+    }
+    const handleEliminarProducto = (id) => {
+        if (window.confirm("¿Seguro que deseas eliminar este producto?")) {
+            setProductos(productos.filter(p => p.id !== id))
+        }
+    }
+    const handleEditarProducto = (producto) => {
+        setProductoEditar(producto)
+        setShowForm(true)
+    }
+
     return (
         <>
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"></link>
@@ -34,7 +63,7 @@ const Productos = () => {
                     <i className="fa fa-list"></i>
                     Categorías
                     </button>
-                    <button class="boton" onClick={() => setShowForm(!showForm)}>+ Agregar Producto</button>
+                    <button class="boton" onClick={() => {setShowForm(!showForm); setProductoEditar(null);}}>+ Agregar Producto</button>
                 </div>
             {showCategorias && <CategoriaProducto
                     categoriaSeleccionada={categoriaSeleccionada}
@@ -69,15 +98,19 @@ const Productos = () => {
                                     <td>{p.categoria}</td>
                                     <td>{p.stock}</td>
                                     <td>
-                                        <button className="action-btn"><i className="fa fa-pencil"></i></button>
-                                        <button className="action-btn delete"><i className="fa fa-trash"></i></button>
+                                        <button className="action-btn" title="Editar" onClick={() => handleEditarProducto(p)}><i className="fa fa-pencil"></i></button>
+                                        <button className="action-btn delete" title="Eliminar" onClick={() => handleEliminarProducto(p.id)}><i className="fa fa-trash"></i></button>
                                     </td>
                                 </tr>
                             ))
                         }
                     </tbody>
                 </table> 
-                {showForm && <FormularioProducto />}
+                {showForm && <FormularioProducto categorias={categorias}
+                    presentaciones={presentaciones}
+                    onGuardar={handleGuardarProducto}
+                    productoEditar={productoEditar}
+                    onCerrar={() => { setShowForm(false); setProductoEditar(null); }}/>}
         </>
     )
 }

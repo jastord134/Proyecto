@@ -23,7 +23,6 @@ export default function NavBar(){
         <Link to="/mantenimiento/productos">Productos</Link>
         <Link to="/acerca">Nosotros</Link>
         <Link to="/admin">Dashboard</Link>
-        <Link to="/mantenimiento/productos">Productos</Link>
         <div className="right">OFERTAS 👋</div>
 
         {/* accesos útiles */}
