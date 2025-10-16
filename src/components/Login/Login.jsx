@@ -1,44 +1,61 @@
-import { useState } from 'react'
-import usuarios from "../../data/usuarios";
-import { useNavigate } from 'react-router-dom'
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSession } from "./Session";
+import { getUserByCredentials } from "../../mockApi";
+import "./Login.css";
 
+export default function Login() {
+  const [usuario, setUsuario] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const { login } = useSession();
+  const navigate = useNavigate();
 
-const Login = () => {
+  const handleLogin = (e) => {
+    e.preventDefault();
+    const user = getUserByCredentials(usuario, password);
 
-    const navigate = useNavigate()
-
-    const [ usuario, setUsuario ] = useState('')
-    const [ password, setPassword ] = useState('')
-
-    const handleLogin = () => {
-        const resultado = usuarios.find((u) => u.username.toLowerCase() === usuario.toLowerCase() 
-                                        && u.password.toLowerCase() === password.toLowerCase())
-        
-        if (resultado) {
-            localStorage.setItem("usuario", JSON.stringify(resultado));
-            navigate('/inicio')
-        }
-        else
-            alert('Usuario o password incorrecto!')
+    if (user) {
+      login(user);
+      if (user.role === "admin") navigate("/admin/categories");
+      else navigate("/user/profile");
+    } else {
+      setError("Usuario o contraseña incorrectos");
     }
+  };
 
-    return (
-        <>
-            <h1>Venta de Garage</h1>
-            <h2>Inicio de Sesion</h2>
-            <label>Usuario:</label>
-            <br/>
-            <input type="text" id="usuario" value={usuario} 
-                onChange={(e) => setUsuario(e.target.value)}/>
-            <br/>
-            <label>Password:</label>
-            <br/>
-            <input type="password" id="password" value={password}
-                onChange={(e) => setPassword(e.target.value)}/>
-            <br/>
-            <button onClick={() => handleLogin()}>INGRESAR</button>
-        </>
-    )
+  return (
+    <div className="login-container">
+      <h2>Iniciar sesión</h2>
+      <form onSubmit={handleLogin} className="login-form">
+        <div className="form-group">
+          <label htmlFor="usuario">Usuario</label>
+          <input
+            type="text"
+            id="usuario"
+            value={usuario}
+            onChange={(e) => setUsuario(e.target.value)}
+            placeholder="Tu nombre de usuario"
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="password">Contraseña</label>
+          <input
+            type="password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="********"
+          />
+        </div>
+
+        {error && <p className="error">{error}</p>}
+
+        <button type="submit" className="btn-login">
+          Entrar
+        </button>
+      </form>
+    </div>
+  );
 }
-
-export default Login;
