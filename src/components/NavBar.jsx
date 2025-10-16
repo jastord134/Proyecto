@@ -1,5 +1,7 @@
-import { useSession } from '../auth'
-import { Link , useNavigate } from 'react-router-dom'
+//import { useSession } from '../auth'
+//import { Link , useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom';
+import { useSession } from './Login/Session';
 
 export default function NavBar(){
   const { user, isAdmin, isLogged, logout } = useSession()
