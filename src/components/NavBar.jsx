@@ -4,13 +4,18 @@ import { Link , useNavigate } from 'react-router-dom'
 export default function NavBar(){
   const { user, isAdmin, isLogged, logout } = useSession()
   const navigate = useNavigate()
-   const handleCuentaClick = () => {
-    if (!isLogged) navigate('/login') 
-    else navigate('/user/profile') 
-  }
+
+  const handleLogout = () => {
+    logout();
+    navigate("/"); // redirige al inicio
+  };
+
+  const handleCuentaClick = () => {
+    if (!isLogged) navigate('/login');
+    else navigate('/user/profile');
+  };
   return (
     <>
-       {/* Top bar */}
       <div className="topbar">
         <div className="brand">GamePlay <span className="dot"></span></div>
         <div className="search">
@@ -18,9 +23,10 @@ export default function NavBar(){
           <span>🔍</span>
         </div>
         <button className="pill">🛒 Carrito  S/ 100.00</button>
+
         {isLogged ? (
-          <button className="iconbtn" onClick={logout}>
-            👤 {user.username} <span className="muted">(Cerrar sesión)</span>
+          <button className="iconbtn" onClick={handleLogout}>
+            👤 {user.name} <span className="muted">(Cerrar sesión)</span>
           </button>
         ) : (
           <button className="iconbtn" onClick={handleCuentaClick}>
@@ -29,26 +35,25 @@ export default function NavBar(){
         )}
       </div>
 
-      {/* Sub nav */}
       <div className="subnav">
         <span>☰</span>
         <Link to="/">Categorías</Link>
-        <Link to="/mantenimiento/productos">Productos</Link>
         <Link to="/acerca">Nosotros</Link>
-        <Link to="/admin">Dashboard</Link>
-        <div className="right">OFERTAS 👋</div>
-
-        {/* accesos útiles */}
         {isAdmin && (
           <>
-            <Link to="/admin/categories" style={{marginLeft:'24px'}}>Listado categorías</Link>
+            <Link to="/admin">Dashboard</Link>
+            <Link to="/mantenimiento/productos">Productos</Link>
+            <Link to="/admin/categories">Listado categorías</Link>
             <Link to="/admin/categories/new">Agregar categoría</Link>
           </>
         )}
-        <Link to="/user/profile" style={{marginLeft:'auto'}}>Mi perfil</Link>
-        <Link to="/user/change-password" style={{marginLeft:'12px'}}>Cambiar contraseña</Link>
-        <Link to="/user/orders/1001" style={{marginLeft:'12px'}}>Orden #1001</Link>
+        {isLogged && (
+          <>
+            <Link to="/user/profile" style={{ marginLeft: 'auto' }}>Mi perfil</Link>
+            <Link to="/user/change-password" style={{ marginLeft: '12px' }}>Cambiar contraseña</Link>
+          </>
+        )}
       </div>
     </>
-  )
+  );
 }

@@ -2,7 +2,7 @@
 const KEYS = {
     categories: 'categories',
     orders: 'orders',
-    user: 'user',
+    user: 'mock_user',
     products: 'products',
   }
   
@@ -128,6 +128,11 @@ const KEYS = {
       password: '123456',
     },
   ];
+  const user = users.find(u => u.name === username && u.password === password) || null;
+  if (user) {
+    localStorage.setItem("mock_user", JSON.stringify(user)); 
+  }
+  return user;
 
   return users.find(u => u.name === username && u.password === password) || null;
 }

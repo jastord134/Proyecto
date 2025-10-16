@@ -14,6 +14,7 @@ import OrderDetail from './pages/user/OrderDetail'
 import Profile from './pages/user/Profile'
 import ChangePassword from './pages/user/ChangePassword'
 import { RequireAdmin, RequireLogin } from './components/Guard'
+import { SessionProvider } from './components/Login/Session.jsx'
 import './App.css'
 
 function Home() {
@@ -81,6 +82,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+    <SessionProvider>
     <RouterProvider router={router}/>
+    </SessionProvider>
   </StrictMode>,
 )

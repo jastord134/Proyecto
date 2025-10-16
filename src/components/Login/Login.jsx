@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSession } from "./Session";
 import { getUserByCredentials } from "../../mockApi";
-
 import "./Login.css";
 
 export default function Login() {
@@ -13,19 +12,17 @@ export default function Login() {
   const navigate = useNavigate();
 
   const handleLogin = (e) => {
-  e.preventDefault();
+    e.preventDefault();
+    const user = getUserByCredentials(usuario, password);
 
-  const user = getUserByCredentials(usuario, password);
-
-  if (user) {
-    login(user);
-    if (user.role === "admin") navigate("/admin/categories");
-    else navigate("/user/profile");
-  } else {
-    setError("Usuario o contraseña incorrectos");
-  }
-};
-
+    if (user) {
+      login(user);
+      if (user.role === "admin") navigate("/admin");
+      else navigate("/user/profile");
+    } else {
+      setError("Usuario o contraseña incorrectos");
+    }
+  };
 
   return (
     <div className="login-container">
@@ -58,11 +55,6 @@ export default function Login() {
         <button type="submit" className="btn-login">
           Entrar
         </button>
-
-        <div className="login-links">
-          <Link to="/recuperacion">¿Olvidaste tu contraseña?</Link>
-          <Link to="/registro">Crear una cuenta nueva</Link>
-        </div>
       </form>
     </div>
   );

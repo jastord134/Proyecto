@@ -1,72 +1,49 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 
 const SessionContext = createContext();
 
 export function SessionProvider({ children }) {
   const [user, setUser] = useState(null);
-  const SESSION_DURATION_MIN = 60 * 24; // 24 horas
+  const SESSION_DURATION_MIN = 60 * 24; // 24h
 
-  // Cargar sesión almacenada si sigue vigente
+  // Cargar sesión desde localStorage
   useEffect(() => {
     const stored = localStorage.getItem("session");
-    if (!stored) return;
-
-    try {
-      const parsed = JSON.parse(stored);
-      if (parsed?.user && parsed?.expiration > Date.now()) {
-        setUser(parsed.user);
-      } else {
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        if (parsed?.user && parsed?.expiration > Date.now()) {
+          setUser(parsed.user);
+        } else {
+          localStorage.removeItem("session");
+        }
+      } catch {
         localStorage.removeItem("session");
-        setUser(null);
       }
-    } catch (err) {
-      console.error("Error cargando sesión:", err);
-      localStorage.removeItem("session");
-      setUser(null);
     }
   }, []);
 
-  // Guardar sesión automáticamente si cambia el usuario
-  useEffect(() => {
-    if (!user) return;
-    try {
-      const expiration = Date.now() + SESSION_DURATION_MIN * 60 * 1000;
-      const session = { user, expiration };
-      localStorage.setItem("session", JSON.stringify(session));
-    } catch (err) {
-      console.error("Error guardando sesión:", err);
-    }
-  }, [user]);
-
-  // Iniciar sesión
   const login = (userData) => {
-    try {
-      const expiration = Date.now() + SESSION_DURATION_MIN * 60 * 1000;
-      const session = { user: userData, expiration };
-      localStorage.setItem("session", JSON.stringify(session));
-      setUser(userData);
-    } catch (err) {
-      console.error("Error al iniciar sesión:", err);
-    }
+    const expiration = Date.now() + SESSION_DURATION_MIN * 60 * 1000;
+    localStorage.setItem("session", JSON.stringify({ user: userData, expiration }));
+    setUser(userData);
   };
 
-  // Cerrar sesión
   const logout = () => {
-    try {
-      localStorage.removeItem("session");
-      setUser(null);
-    } catch (err) {
-      console.error("Error al cerrar sesión:", err);
-    } finally {
-      window.location.href = "/";
-    }
+    localStorage.removeItem("session");
+    setUser(null);
   };
-
-  const isLogged = !!user;
-  const isAdmin = user?.role === "admin";
 
   return (
-    <SessionContext.Provider value={{ user, isLogged, isAdmin, login, logout }}>
+    <SessionContext.Provider
+      value={{
+        user,
+        isLogged: !!user,
+        isAdmin: user?.role === "admin",
+        login,
+        logout,
+      }}
+    >
       {children}
     </SessionContext.Provider>
   );
