@@ -14,6 +14,7 @@ import OrderDetail from './pages/user/OrderDetail'
 import Profile from './pages/user/Profile'
 import ChangePassword from './pages/user/ChangePassword'
 import { RequireAdmin, RequireLogin } from './components/Guard'
+import { SessionProvider } from './components/Login/Session.jsx'
 import './App.css'
 
 function Home() {
@@ -30,7 +31,7 @@ function Home() {
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Login />
+    element: <App><Home /></App>
   },
   {
     path: "inicio",
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
     element: <App><AboutUs /></App>
   },
   {
+    path: "/login",
+    element: <Login />
+  },
+    {
     path: "/mantenimiento/productos",
     element: <App><ProductosPage /></App>
   },
@@ -48,7 +53,7 @@ const router = createBrowserRouter([
     path: "/admin",
     element: <App><DashboardAPage /></App>
   },
-  // Rutas internas usando el layout App
+
   {
     path: "/admin/categories",
     element: <App><RequireAdmin><CategoryList /></RequireAdmin></App>
@@ -77,6 +82,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+    <SessionProvider>
     <RouterProvider router={router}/>
+    </SessionProvider>
   </StrictMode>,
 )

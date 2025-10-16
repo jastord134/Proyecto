@@ -2,7 +2,7 @@
 const KEYS = {
     categories: 'categories',
     orders: 'orders',
-    user: 'user',
+    user: 'mock_user',
     products: 'products',
   }
   
@@ -32,16 +32,28 @@ const KEYS = {
         }
       ])
     }
-    if(!localStorage.getItem(KEYS.user)){
-      write(KEYS.user, {
-        id:1,
-        role:'admin', // cambia a 'user' para probar
-        name:'Santiago',
-        lastName:'Pérez',
-        email:'santiago@example.com',
-        password:'123456',
-      })
-    }
+    if (!localStorage.getItem(KEYS.users)) {
+    write(KEYS.users, [
+      {
+        id: 1,
+        role: 'admin',
+        name: 'Santiago',
+        lastName: 'Pérez',
+        email: 'santiago@example.com',
+        password: '123456',
+      },
+      {
+        id: 2,
+        role: 'user',
+        name: 'Carlos',
+        lastName: 'Doig',
+        email: 'carlos@example.com',
+        password: '123456',
+      }
+    ])
+  }
+    
+    
     if(!localStorage.getItem(KEYS.products)){
       write(KEYS.products, [
         {id:1, name:'Poción de Curación'},
@@ -97,6 +109,34 @@ const KEYS = {
     write(KEYS.user, next)
     return next
   }
+  export function getUserByCredentials(username, password) {
+  const users = [
+    {
+      id: 1,
+      role: 'admin',
+      name: 'Santiago',
+      lastName: 'Pérez',
+      email: 'santiago@example.com',
+      password: '123456',
+    },
+    {
+      id: 2,
+      role: 'user',
+      name: 'Carlos',
+      lastName: 'Doig',
+      email: 'carlos@example.com',
+      password: '123456',
+    },
+  ];
+  const user = users.find(u => u.name === username && u.password === password) || null;
+  if (user) {
+    localStorage.setItem("mock_user", JSON.stringify(user)); 
+  }
+  return user;
+
+  return users.find(u => u.name === username && u.password === password) || null;
+}
+
   export function changePassword(oldPwd, newPwd){
     const curr = read(KEYS.user)
     if(!curr) throw new Error('No existe usuario')
