@@ -21,14 +21,43 @@ import QR from './pages/user/Checkout/QR/QR.jsx'
 import Pago from './pages/user/Checkout/Pago/Pago.jsx'
 import { RequireAdmin, RequireLogin } from './components/Guard'
 import { SessionProvider } from './components/Login/Session.jsx'
+import GameCardCatalog from './components/GameCardCatalog/GameCardCatalog.jsx'
+import catalogIMG from './data/catalogIMG.js'
+import BestSeller from './components/BestSeller/BestSeller.jsx'
+import hotsale from './data/hotsale'
 import './App.css'
 
 function Home() {
   return (
     <div className="container">
-      <div className="card">
-        <h1 className="h1">Tienda Fantasía (Demo Alumno 4)</h1>
-        <p className="muted">Usa la barra superior para navegar por las pantallas.</p>
+      <section className="banner">
+        <a href=""><img src="https://slider.eneba.games/resized/tzTuVy4rHd4EnUUQbLml2o1nbo8MN7TIWwjbekeNUqY_1500x400_1x-1500x400_150_0.jpg"
+  alt="banner"
+  style={{
+    display: "block",
+    margin: "0 auto",
+    width: "100%",
+    maxWidth: "1500px",
+    borderRadius: "10px"
+  }}/></a>
+      </section>
+    <h2 style={{ textAlign: "left", marginTop: "10px" }}>Explora más categorías:</h2>
+      <div className="catalog-container">
+        {catalogIMG.map((item) => (
+          <GameCardCatalog key={item.id} titulo={item.Categoria} img={item.img} />
+        ))}
+      </div>
+      <h2 style={{ textAlign: "left", marginTop: "40px" }}>Lo más vendido:</h2>
+      <div className="most-sold-container">
+        {hotsale.map((item) => (
+          <BestSeller 
+            key={item.id} 
+            titulo={item.titulo} 
+            categoria={item.categoria} 
+            precio={item.precio} 
+            img={item.img} 
+          />
+        ))}
       </div>
     </div>
   )
