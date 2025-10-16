@@ -14,6 +14,9 @@ export default function NavBar(){
     if (!isLogged) navigate('/login');
     else navigate('/user/profile');
   };
+  const handleCarritoClick = () => {
+    navigate('/carrito'); 
+  };
   return (
     <>
       <div className="topbar">
@@ -22,7 +25,7 @@ export default function NavBar(){
           <input placeholder="Buscar un producto..." />
           <span>🔍</span>
         </div>
-        <button className="pill">🛒 Carrito  S/ 100.00</button>
+        <button className="pill" onClick={handleCarritoClick}>🛒 Carrito  S/ 100.00</button>
 
         {isLogged ? (
           <button className="iconbtn" onClick={handleLogout}>

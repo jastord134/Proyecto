@@ -13,6 +13,12 @@ import CategoryDetail from './pages/admin/CategoryDetail'
 import OrderDetail from './pages/user/OrderDetail'
 import Profile from './pages/user/Profile'
 import ChangePassword from './pages/user/ChangePassword'
+import Carrito from './pages/user/Carrito/Carrito.jsx'
+import Checkout from './pages/user/Checkout/Checkout.jsx'
+import PaymentMethod from './pages/user/Checkout/PaymentMethod/PaymentMethod.jsx'
+import Card from './pages/user/Checkout/Card/Card.jsx'
+import QR from './pages/user/Checkout/QR/QR.jsx'
+import Pago from './pages/user/Checkout/Pago/Pago.jsx'
 import { RequireAdmin, RequireLogin } from './components/Guard'
 import { SessionProvider } from './components/Login/Session.jsx'
 import './App.css'
@@ -78,6 +84,31 @@ const router = createBrowserRouter([
     path: "/user/change-password",
     element: <App><RequireLogin><ChangePassword /></RequireLogin></App>
   },
+  {
+    path: "/carrito",
+    element: <App><Carrito /></App>
+  },
+  {
+    path: "/checkout/card",
+    element: <App><Card /></App>
+  },
+  {
+    path: "/checkout",
+    element: <App><Checkout /></App>
+  },
+  {
+    path: "/checkout/payment",
+    element: <App><PaymentMethod /></App>
+  },
+  {
+    path: "/checkout/qr",
+    element: <App><QR /></App>
+  },
+  {
+    path: "/checkout/pago",
+    element: <App><Pago /></App>
+  }
+
 ])
 
 createRoot(document.getElementById('root')).render(
