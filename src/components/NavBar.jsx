@@ -42,8 +42,7 @@ export default function NavBar(){
 
       <div className="subnav">
         <span>☰</span>
-        <Link to="/">Categorías</Link>
-        <Link to="/acerca">Nosotros</Link>
+        <Link to="/">Home</Link>
         {isAdmin && (
           <>
             <Link to="/admin">Dashboard</Link>
@@ -56,6 +55,7 @@ export default function NavBar(){
           <>
             <Link to="/user/profile" style={{ marginLeft: 'auto' }}>Mi perfil</Link>
             <Link to="/user/change-password" style={{ marginLeft: '12px' }}>Cambiar contraseña</Link>
+            <Link to="/user/orders/:orderId" style={{ marginLeft: '12px' }}>Mis órdenes</Link>
           </>
         )}
       </div>
